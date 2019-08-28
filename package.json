@@ -1,0 +1,25 @@
+{
+    "name": "@fizzygalacticus/promise-or-not",
+    "version": "1.0.0",
+    "description": "Perform an action on the result of a function, synchronously or asyncronously.",
+    "main": "index.js",
+    "repository": "https://github.com/FizzyGalacticus/promise-or-not",
+    "author": "Dustin L. Dodson",
+    "scripts": {
+        "test": "mocha test"
+    },
+    "license": "MIT",
+    "keywords": [
+        "regardless",
+        "if",
+        "promise",
+        "not"
+    ],
+    "dependencies": {
+        "@fizzygalacticus/is-promise": "^1.0.0"
+    },
+    "devDependencies": {
+        "assert": "^2.0.0",
+        "mocha": "^6.2.0"
+    }
+}
