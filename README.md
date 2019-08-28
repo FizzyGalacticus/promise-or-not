@@ -1,6 +1,6 @@
 # promise-or-not
 
-`promise-or-not` is a function decorator that can act as a middlemad to perform operations on resulting data, even if the function initially returns a promise.
+`promise-or-not` is a function decorator that can act as a middleman to perform operations on resulting data, even if the function initially returns a promise.
 
 ## Installation
 
