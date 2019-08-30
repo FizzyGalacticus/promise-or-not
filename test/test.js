@@ -2,8 +2,6 @@
 
 const assert = require('assert');
 
-const isPromise = require('@fizzygalacticus/is-promise');
-
 const promiseOrNot = require('../');
 
 describe('promise-or-not', () => {
@@ -15,6 +13,13 @@ describe('promise-or-not', () => {
             const result = promiseOrNot(fn)();
 
             assert.equal(value, result);
+        });
+        it('should inform onData function that regular function did not return promise', () => {
+            const fn = () => null;
+
+            return promiseOrNot(fn, (val, wasPromise) => {
+                assert.equal(wasPromise, false);
+            })();
         });
 
         it('should process data in order', () => {
@@ -49,6 +54,14 @@ describe('promise-or-not', () => {
             const result = await promiseOrNot(fn)();
 
             assert.equal(value, result);
+        });
+
+        it('should inform onData function that regular function did return promise', () => {
+            const fn = () => Promise.resolve();
+
+            return promiseOrNot(fn, (val, wasPromise) => {
+                assert.equal(wasPromise, true);
+            })();
         });
 
         it('should process data in order', async () => {

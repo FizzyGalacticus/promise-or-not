@@ -1,12 +1,13 @@
 {
     "name": "@fizzygalacticus/promise-or-not",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "Perform an action on the result of a function, synchronously or asyncronously.",
     "main": "index.js",
     "repository": "https://github.com/FizzyGalacticus/promise-or-not",
     "author": "Dustin L. Dodson",
     "scripts": {
-        "test": "mocha test"
+        "test": "mocha test",
+        "lint": "eslint ."
     },
     "license": "MIT",
     "keywords": [
@@ -20,6 +21,18 @@
     },
     "devDependencies": {
         "assert": "^2.0.0",
-        "mocha": "^6.2.0"
+        "eslint": "^6.2.2",
+        "eslint-plugin-prettier": "^3.1.0",
+        "husky": "^3.0.4",
+        "mocha": "^6.2.0",
+        "prettier": "^1.18.2"
+    },
+    "eslintIgnore": [
+        "**/node_modules"
+    ],
+    "husky": {
+        "hooks": {
+            "pre-commit": "npm run lint && npm run test"
+        }
     }
 }

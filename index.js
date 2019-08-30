@@ -13,7 +13,7 @@ module.exports = (fn = () => {}, onData = () => {}, onError = () => {}) => (...p
                 try {
                     result = await result;
 
-                    await onData(result);
+                    await onData(result, true);
 
                     resolve(result);
                 } catch (err) {
@@ -23,7 +23,7 @@ module.exports = (fn = () => {}, onData = () => {}, onError = () => {}) => (...p
             });
         }
 
-        onData(result);
+        onData(result, false);
 
         return result;
     } catch (err) {
