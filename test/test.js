@@ -2,6 +2,8 @@
 
 const assert = require('assert');
 
+const isPromise = require('@fizzygalacticus/is-promise');
+
 const promiseOrNot = require('../');
 
 describe('promise-or-not', () => {
@@ -35,6 +37,16 @@ describe('promise-or-not', () => {
             promiseOrNot(fn, modify)();
 
             assert.equal(test, 'fizz');
+        });
+
+        it('should forceable to return a Promise', () => {
+            const value = 'this is a test';
+            const fn = () => value;
+
+            const result = promiseOrNot(fn, undefined, undefined, true)();
+
+            assert.ok(isPromise(result).promise);
+            assert.ok(!isPromise(value).promise);
         });
 
         it('should throw if the normal function threw', () => {

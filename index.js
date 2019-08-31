@@ -2,19 +2,17 @@
 
 const isValPromise = require('@fizzygalacticus/is-promise');
 
-module.exports = (fn = () => {}, onData = () => {}, onError = () => {}) => (...params) => {
+module.exports = (fn = () => {}, onData = () => {}, onError = () => {}, returnPromise = false) => (...params) => {
     try {
         let result = fn(...params);
 
         const { promise } = isValPromise(result);
 
-        if (promise) {
+        if (promise || returnPromise) {
             return new Promise(async (resolve, reject) => {
                 try {
                     result = await result;
-
                     await onData(result, true);
-
                     resolve(result);
                 } catch (err) {
                     onError(err);

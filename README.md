@@ -8,6 +8,12 @@
 
 ## Usage
 
+**Parameters:**
+* `fn` - The primary function you wish to run
+* `onData` - The function to call when data is received
+* `onError` - The function to call when an error occurrs
+* `returnPromise` - Forces even synchronous functions to return a `Promise`. This can be useful in situations where you may want to make multiple calls to `promise-or-not` as I do in my [savethis](https://github.com/FizzyGalacticus/savethis) project.
+
 For synchronous functions:
 ```js
 
