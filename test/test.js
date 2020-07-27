@@ -16,11 +16,14 @@ describe('promise-or-not', () => {
 
             assert.equal(value, result);
         });
+
         it('should inform onData function that regular function did not return promise', () => {
             const fn = () => null;
 
-            return promiseOrNot(fn, (val, wasPromise) => {
-                assert.equal(wasPromise, false);
+            return promiseOrNot(fn, {
+                onData: (val, wasPromise) => {
+                    assert.equal(wasPromise, false);
+                },
             })();
         });
 
@@ -30,20 +33,20 @@ describe('promise-or-not', () => {
                 test = 'bar';
             };
 
-            const modify = () => {
+            const onData = () => {
                 test = 'fizz';
             };
 
-            promiseOrNot(fn, modify)();
+            promiseOrNot(fn, { onData })();
 
             assert.equal(test, 'fizz');
         });
 
-        it('should forceable to return a Promise', () => {
+        it('should be able to force return a Promise', () => {
             const value = 'this is a test';
             const fn = () => value;
 
-            const result = promiseOrNot(fn, undefined, undefined, true)();
+            const result = promiseOrNot(fn, { returnPromise: true })();
 
             assert.ok(isPromise(result).promise);
             assert.ok(!isPromise(value).promise);
@@ -55,6 +58,21 @@ describe('promise-or-not', () => {
             };
 
             assert.throws(promiseOrNot(fn));
+        });
+
+        it('should use passed in context when available', () => {
+            const tests = {
+                fizz() {
+                    return 'buzz';
+                },
+                foo() {
+                    return this.fizz();
+                },
+            };
+
+            const result = promiseOrNot(tests.foo, { context: tests })();
+
+            assert.equal(result, 'buzz');
         });
     });
 
@@ -71,8 +89,10 @@ describe('promise-or-not', () => {
         it('should inform onData function that regular function did return promise', () => {
             const fn = () => Promise.resolve();
 
-            return promiseOrNot(fn, (val, wasPromise) => {
-                assert.equal(wasPromise, true);
+            return promiseOrNot(fn, {
+                onData: (val, wasPromise) => {
+                    assert.equal(wasPromise, true);
+                },
             })();
         });
 
@@ -84,11 +104,11 @@ describe('promise-or-not', () => {
                     resolve();
                 });
 
-            const modify = () => {
+            const onData = () => {
                 test = 'fizz';
             };
 
-            await promiseOrNot(fn, modify)();
+            await promiseOrNot(fn, { onData })();
 
             assert.equal(test, 'fizz');
         });
@@ -97,6 +117,21 @@ describe('promise-or-not', () => {
             const fn = () => Promise.reject('bla');
 
             assert.rejects(promiseOrNot(fn));
+        });
+
+        it('should use passed in context when available', async () => {
+            const tests = {
+                fizz() {
+                    return Promise.resolve('buzz');
+                },
+                foo() {
+                    return this.fizz();
+                },
+            };
+
+            const result = await promiseOrNot(tests.foo, { context: tests })();
+
+            assert.equal(result, 'buzz');
         });
     });
 });

@@ -1,6 +1,6 @@
 {
     "name": "@fizzygalacticus/promise-or-not",
-    "version": "1.0.3",
+    "version": "2.0.0",
     "description": "Perform an action on the result of a function, synchronously or asyncronously.",
     "main": "index.js",
     "repository": "https://github.com/FizzyGalacticus/promise-or-not",

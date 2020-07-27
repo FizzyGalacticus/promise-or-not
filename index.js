@@ -2,9 +2,12 @@
 
 const isValPromise = require('@fizzygalacticus/is-promise');
 
-module.exports = (fn = () => {}, onData = () => {}, onError = () => {}, returnPromise = false) => (...params) => {
+module.exports = (
+    fn = () => {},
+    { context = {}, onData = () => {}, onError = () => {}, returnPromise = false } = {}
+) => (...params) => {
     try {
-        let result = fn(...params);
+        let result = fn.call(context, ...params);
 
         const { promise } = isValPromise(result);
 
